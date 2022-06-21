@@ -80,7 +80,7 @@ class NotesController {
           "notes.title",
           "notes.user_id",
         ])
-        .where("notes.user_id", "=", user_id) // filtrando pelas tags do id do usuário 
+        .where("notes.user_id", user_id) // filtrando pelas tags do id do usuário 
         .whereLike("notes.title", `%${title}%`) // Pesquise na palavra antes e depois e se existir oq estou passando traga para mim
         .whereIn("name", filterTags) // irar ser passado o nome da tag e irar ser comparado com o vetor que esta em filterTags
         .innerJoin("notes", "notes.id", "tags.note_id") // conectando uma tabela com a outra
