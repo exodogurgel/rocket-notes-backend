@@ -4,7 +4,7 @@ class NotesController {
   async create( request, response ) {
     // destructing 
     const { title, description, tags, links } = request.body;
-    const { user_id } = request.params;
+    const  user_id  = request.user.id;
 
     // inserindo um nota recuperando o código da nota que foi inserida
     const note_id = await knex("notes").insert({
@@ -35,7 +35,7 @@ class NotesController {
 
     await knex("tags").insert(tagsInsert);
 
-    response.json();
+    return response.json();
   }
 
   async show( request, response ) {
@@ -62,7 +62,9 @@ class NotesController {
   }
 
   async index( request, response ) {
-    const { title, user_id, tags } = request.query; // pegando o user_id de uma query
+    const { title, tags } = request.query; // pegando o user_id de uma query 
+
+    const user_id = request.user.id;  
 
     let notes;
 
