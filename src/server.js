@@ -1,17 +1,21 @@
 require("express-async-errors");
+const migrationsRun = require("./database/sqlite/migrations");
+const AppError = require("./utils/AppError");
+const uploadConfig = require("./configs/upload");
 
-const migrationsRun = require("./database/sqlite/migrations")
-
-const AppError = require("./utils/AppError")
-
+const cors = require("cors");
 const express = require("express");
 const routes = require("./routes"); // Não é necessário colocar o index.js pq por padrão quando não dizemos o nome do arquivo que queremos carregar de uma pasta, ele carrega o index.js
+
 
 // executando banco de dados
 migrationsRun();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
+
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 
 app.use(routes);
 

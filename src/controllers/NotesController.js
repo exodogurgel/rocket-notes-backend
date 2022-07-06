@@ -84,6 +84,7 @@ class NotesController {
         .whereLike("notes.title", `%${title}%`) // Pesquise na palavra antes e depois e se existir oq estou passando traga para mim
         .whereIn("name", filterTags) // irar ser passado o nome da tag e irar ser comparado com o vetor que esta em filterTags
         .innerJoin("notes", "notes.id", "tags.note_id") // conectando uma tabela com a outra
+        .groupBy("notes.id")
         .orderBy("notes.title") // organizando pelo titulo
     } else {
       // buscando as notas
