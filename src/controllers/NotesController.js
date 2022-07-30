@@ -13,27 +13,33 @@ class NotesController {
       user_id
     });
 
-    // map() = ira percorrer em cada item dentro do array
-    // aqui esta sendo criado um novo objeto inserindo o id da nota onde esse link esta vinculado e mudando de link para url
-    const linksInsert = links.map(link => {
-      return {
-        note_id,
-        url: link
-      }
-    });
+    // verificando se o usuário adicionou links
+    if (links.length > 0) { 
+      // map() = ira percorrer em cada item dentro do array
+      // aqui esta sendo criado um novo objeto inserindo o id da nota onde esse link esta vinculado e mudando de link para url
+      const linksInsert = links.map(link => {
+        return {
+          note_id,
+          url: link
+        }
+      });
+      
+      await knex("links").insert(linksInsert);
+    }
 
-    await knex("links").insert(linksInsert);
-
-    // Inserindo as tags
-    const tagsInsert = tags.map(name => {
-      return {
-        note_id,
-        name,
-        user_id
-      }
-    });
-
-    await knex("tags").insert(tagsInsert);
+    // verificando se o usuário adicionou tags
+    if (tags.length > 0) {
+      // Inserindo as tags
+      const tagsInsert = tags.map(name => {
+        return {
+          note_id,
+          name,
+          user_id
+        }
+      });
+      
+      await knex("tags").insert(tagsInsert);
+    }
 
     return response.json();
   }
